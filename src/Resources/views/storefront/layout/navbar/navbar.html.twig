@@ -1,0 +1,19 @@
+{% sw_extends '@Storefront/storefront/layout/navbar/navbar.html.twig' %}
+
+{% block layout_navbar_menu_item_children %}
+
+{% set mega = treeItem.category.customFields.show_in_mega_menu %}
+
+
+
+<div class="dropdown-menu {{ mega ? 'w-100 p-4' : '' }}">
+        {% sw_include '@Storefront/storefront/layout/navbar/content.html.twig' with {
+            themeIconConfig: themeIconConfig,
+            navigationTree: treeItem,
+            level: level+1,
+            page: page
+        } only %}
+
+        <img src="{{treeItem.children|first.category.media.url}} width="100" height="100" />
+    </div>
+{% endblock %}

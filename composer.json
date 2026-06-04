@@ -1,0 +1,28 @@
+{
+    "name": "custom/custom-mega-menu",
+    "description": "Dynamic configurable mega menu for Shopware 6 storefront",
+    "version": "1.0.0",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Custom Dev",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "CustomMegaMenu\\CustomMegaMenu",
+        "label": {
+            "de-DE": "Dynamisches Mega-Menü",
+            "en-GB": "Dynamic Mega Menu"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "CustomMegaMenu\\": "src/"
+        }
+    }
+}
