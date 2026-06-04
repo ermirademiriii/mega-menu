@@ -1,0 +1,51 @@
+{% set megaMenuCategories = [] %}
+
+{% for treeItem in page.header.navigation %}
+    {% if treeItem.category.active
+        and treeItem.category.customFields is not null
+        and treeItem.category.customFields.show_in_mega_menu is defined
+        and treeItem.category.customFields.show_in_mega_menu == true %}
+        {% set megaMenuCategories = megaMenuCategories|merge([treeItem]) %}
+    {% endif %}
+{% endfor %}
+
+{% if megaMenuCategories|length > 0 %}
+<nav class="main-navigation-menu" aria-label="{{ 'header.navigation'|trans }}">
+    <ul class="navigation-list" role="list">
+        {% for treeItem in megaMenuCategories %}
+            {% set category = treeItem.category %}
+            {% set categoryId = category.id %}
+            {% set categoryName = category.translated.name ?? category.name %}
+            {% set seoUrl = category.seoUrls is not empty ? category.seoUrls|first : null %}
+            {% set categoryUrl = seoUrl ? '/' ~ seoUrl.seoPathInfo : '/navigation/' ~ categoryId %}
+
+            <li class="navigation-list-item has-mega-menu">
+                <a href="{{ categoryUrl }}"
+                   class="main-navigation-link mega-menu-trigger"
+                   data-mega-menu="true"
+                   data-mega-menu-id="{{ categoryId }}"
+                   aria-expanded="false"
+                   aria-haspopup="true"
+                   aria-controls="mega-menu-panel-{{ categoryId }}">
+                    {{ categoryName }}
+                    <span class="mega-menu-arrow" aria-hidden="true">&#9660;</span>
+                </a>
+
+                <div id="mega-menu-panel-{{ categoryId }}"
+                     class="mega-menu-panel"
+                     role="region"
+                     aria-label="{{ categoryName }}"
+                     hidden>
+
+                    <div class="mega-menu-loading" hidden aria-live="polite">
+                        <span class="mega-menu-spinner" aria-hidden="true"></span>
+                        <span>{{ 'general.loading'|trans }}</span>
+                    </div>
+
+                    <ul class="mega-menu-subcategory-list" role="list"></ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}
